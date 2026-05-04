@@ -1,97 +1,58 @@
 // =======================================
-// ES6+ Features + Closures + Functional Programming
-// Immutability + Module Pattern
+// TypeScript-like Interface (for understanding)
+// interface User {
+//    id: number;
+//    name: string;
+//    email: string;
+// }
 // =======================================
+// API Layer (Async Programming)
+const UserAPI = {
+    fetchUsers: async function () {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const success = true;
+                if (success) {
+                    resolve([
+                        { id: 1, name: "laxmikanthreddy", email: "laxmikanthreddy@klh.edu.in" },
+                        { id: 2, name: "vivek", email: "vivek@143" },
+                        { id: 3, name: "partheev", email: "partheev@love" },
+                        { id: 4, name: "sathivik", email: "chotu@143"},
+                        { id: 5, name: "shanthi", email:"shanthi@1432"},
+                        { id: 6, name: "chotu", email:"sathivik@1432"},
+                        { id: 7, name: "king", email:"@1432"},
+                        { id: 8, name: "danger", email:"book@143"},
+                        { id: 9, name: "chotu", email:"sathivik@1432"},
 
-// Module Pattern
-const UserApp = (() => {
-  
-  // Private Data
-  let users = [
-    { id: 1, name: "Ramya", age: 25 },
-    { id: 2, name: "Krishna", age: 28 },
-    { id: 3, name: "Sita", age: 22 }
-  ];
-
-  // Closure Counter
-  const createCounter = () => {
-    let count = 0;
-
-    return () => {
-      count++;
-      return count;
-    };
-  };
-
-  const userCounter = createCounter();
-
-  return {
-
-    // Display Users
-    showUsers() {
-      console.log("\nAll Users:");
-      users.forEach(user =>
-        console.log(`ID: ${user.id}, Name: ${user.name}, Age: ${user.age}`)
-      );
-    },
-
-    // Add User (ES6 + Immutability)
-    addUser(name, age) {
-      const newUser = {
-        id: userCounter() + users.length,
-        name,
-        age
-      };
-
-      users = [...users, newUser];
-
-      console.log(`\nUser Added: ${name}`);
-    },
-
-    // Functional Programming - Filter Adults
-    showAdults() {
-      const adults = users.filter(user => user.age >= 25);
-
-      console.log("\nUsers Age >= 25:");
-      adults.forEach(user =>
-        console.log(`${user.name} (${user.age})`)
-      );
-    },
-
-    // Functional Programming - Map Names
-    showNames() {
-      const names = users.map(user => user.name);
-
-      console.log("\nUser Names:");
-      console.log(names);
-    },
-
-    // Update User (Immutability)
-    updateAge(id, newAge) {
-      users = users.map(user =>
-        user.id === id ? { ...user, age: newAge } : user
-      );
-
-      console.log(`\nUpdated Age of User ID ${id}`);
+                    ]);
+                } else {
+                    reject("Failed to fetch users");
+                }
+            }, 2000);
+        });
     }
-  };
-
-})();
-
-// =======================================
-// Execute Program
-// =======================================
-
-UserApp.showUsers();
-
-UserApp.addUser("Ravi", 30);
-
-UserApp.showUsers();
-
-UserApp.showAdults();
-
-UserApp.showNames();
-
-UserApp.updateAge(2, 35);
-
-UserApp.showUsers();
+};
+// UI Layer
+const UI = {
+    displayUsers(users) {
+        const userList = document.getElementById("userList");
+        userList.innerHTML = "";
+        users.forEach(user => {
+            const li = document.createElement("li");
+            li.textContent = `${user.name} - ${user.email}`;
+            userList.appendChild(li);
+        });
+    }
+};
+// Controller Layer
+async function loadUsers() {
+    try {
+        console.log("Loading users...");
+        const users = await UserAPI.fetchUsers();
+        UI.displayUsers(users);
+        console.log("Users loaded successfully");
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong!");
+    }
+}
