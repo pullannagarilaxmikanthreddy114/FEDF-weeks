@@ -1,11 +1,25 @@
-import React from "react";
-import RegistrationForm from "./components/RegistrationForm";
+import { useState } from "react";
+import StudentContext from "./StudentContext";
+import StudentForm from "./components/StudentForm";
+import StudentList from "./components/StudentList";
+
 function App() {
-  return (
-    <div>
-      <h1>Student Registration System</h1>
-      <RegistrationForm />
-    </div>
-  );
+
+    // State stored in Parent Component
+    const [students, setStudents] = useState([]);
+
+    return (
+        <StudentContext.Provider
+            value={{ students, setStudents }}
+        >
+            <div>
+                <h1>Student Management System</h1>
+
+                <StudentForm />
+                <StudentList />
+            </div>
+        </StudentContext.Provider>
+    );
 }
+
 export default App;
