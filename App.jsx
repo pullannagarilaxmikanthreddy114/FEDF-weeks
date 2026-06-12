@@ -1,66 +1,18 @@
-import { useState } from "react";
-
-import {
- BrowserRouter,
- Routes,
- Route
-}
-from "react-router-dom";
-
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-import BookDeletion from "./components/BookDeletion";
-import ProtectedRoute from "./routes/ProtectedRoute";
+import BookingForm from "./components/BookingForm";
 
 function App() {
 
-  const [isLoggedIn,
-         setIsLoggedIn] =
-         useState(false);
+  const airlineName =
+    import.meta.env.VITE_AIRLINE_NAME;
 
   return (
+    <div>
 
-    <BrowserRouter>
+      <h1>{airlineName}</h1>
 
-      <Routes>
+      <BookingForm />
 
-        <Route
-          path="/"
-          element={
-            <Login
-              setIsLoggedIn={
-                setIsLoggedIn
-              }
-            />
-          }
-        />
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute
-              isLoggedIn={isLoggedIn}
-            >
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/deletebook"
-          element={
-            <ProtectedRoute
-              isLoggedIn={isLoggedIn}
-            >
-              <BookDeletion />
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes>
-
-    </BrowserRouter>
-
+    </div>
   );
 }
 
